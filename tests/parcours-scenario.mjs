@@ -16,7 +16,7 @@ try{
  for(const width of [390,1440]){await page.setViewportSize({width,height:1000});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));}
  const scan=await new AxeBuilder({page}).analyze();assert.deepEqual(scan.violations.map(v=>v.id),[],'L’accueil pédagogique doit être accessible');
  await page.getByRole('button',{name:'Je commence par le formulaire →'}).click();await page.locator('iframe').waitFor({timeout:90000});
- const frame=page.frameLocator('iframe');if(await frame.getByRole('button',{name:'Charger le panier de démonstration'}).count())await frame.getByRole('button',{name:'Charger le panier de démonstration'}).click();
+ const frame=page.frameLocator('iframe');await frame.locator('#name').waitFor({timeout:90000});
  await frame.locator('#name').fill('Camille Démo');await frame.locator('#postal').fill('20');await frame.getByRole('button',{name:/Confirmer la commande fictive/}).click();assert.equal(await frame.locator('#name').inputValue(),'');
  await page.getByRole('button',{name:'J’ai essayé →'}).click();await page.locator('#observation').fill('Les informations disparaissent après mon erreur.');await page.getByRole('button',{name:'Un petit indice',exact:true}).click();assert.ok(await page.getByText('Saisissez Camille Démo comme nom avant de confirmer.').isVisible());
  await page.getByRole('button',{name:'Choisir mon outil →'}).click();await page.getByRole('button',{name:'Lancer mon premier contrôle'}).click();

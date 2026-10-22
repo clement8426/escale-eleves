@@ -3,6 +3,7 @@ node_modules/
 next-env.d.ts
 *.tsbuildinfo
 .atelier/
+.playwright-mcp/
 travail/
 .mcp.json
 .codex/config.toml

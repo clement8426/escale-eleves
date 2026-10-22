@@ -30,7 +30,10 @@ export async function archiveWorkspace(id){
  const work=inside(workRoot,workspace(id));
  const canonical=await realpath(work);if(canonical!==resolve(work))throw Error('L’espace de travail doit être un vrai dossier, sans redirection.');
  const destination=inside(join(dataDir,'essais-conserves'),join(dataDir,'essais-conserves','bloc-'+id+'-'+stamp()));
- await mkdir(resolve(destination,'..'),{recursive:true});await rename(work,destination);return destination;
+ await mkdir(resolve(destination,'..'),{recursive:true});
+ // Windows peut garder brièvement un fichier ouvert après l’arrêt de Next ou une analyse antivirus.
+ for(let attempt=0;;attempt++){try{await rename(work,destination);break;}catch(error){if(process.platform!=='win32'||!['EPERM','EBUSY','EACCES'].includes(error.code)||attempt>=25)throw error;await new Promise(r=>setTimeout(r,200));}}
+ return destination;
 }
 export async function restore(id,reset=false){
  id=missionId(id);const s=await state(),name=s.missions[id]?.checkpoint;

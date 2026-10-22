@@ -7,7 +7,7 @@ import {root,dataDir,json,save,sourceHash,workspace,copySource,update,state,stam
 import {freePort,runNode,runNpm} from './processus.mjs';
 const serviceFile=name=>join(dataDir,'services',name+'.json');
 export async function status(name){const s=await json(serviceFile(name));if(!s?.health)return null;try{const r=await fetch(s.health,{headers:{Authorization:'Bearer '+s.token},signal:AbortSignal.timeout(1500)});const body=await r.json();return body.pid===s.pid&&body.token===s.token?body:null;}catch{return null;}}
-export async function stop(name){const s=await status(name);if(!s)return;await fetch(s.health+'/arreter',{method:'POST',headers:{Authorization:'Bearer '+s.token}});for(let n=0;n<60;n++){if(!await status(name))return;await new Promise(r=>setTimeout(r,100));}throw Error('Le serveur termine son arrêt. Réessayez dans un instant.');}
+export async function stop(name){const s=await status(name);if(!s)return;await fetch(s.health+'/arreter',{method:'POST',headers:{Authorization:'Bearer '+s.token}});for(let n=0;n<100;n++){let alive=false;try{process.kill(s.pid,0);alive=true;}catch{}if(!alive)return;await new Promise(r=>setTimeout(r,100));}throw Error('Le serveur termine son arrêt. Réessayez dans un instant.');}
 export async function start(name,work,preferred,dev){
  const existing=await status(name);if(existing?.ready&&existing.work===work&&existing.dev===dev)return existing;
  if(existing)await stop(name);

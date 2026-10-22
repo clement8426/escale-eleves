@@ -27,7 +27,10 @@ try{
  await writeFile(join(workspace(2),'MON-ESSAI.txt'),'Mon nouvel essai doit être conservé.');
  // Une erreur de compilation dans la copie ne doit pas casser l’atelier ni le retour arrière.
  await writeFile(join(workspace(2),'app/page.tsx'),'export const = ceci ne compile pas');
- await page.getByRole('button',{name:'Revenir à ma sauvegarde'}).click();await page.getByRole('button',{name:'Oui, je veux réessayer'}).click();await page.getByRole('heading',{name:'J’essaie',exact:true}).waitFor({timeout:90000});
+ await page.getByRole('button',{name:'Revenir à ma sauvegarde'}).click();
+ const restored=page.waitForResponse(r=>r.url().endsWith('/api/atelier')&&r.request().method()==='POST'&&r.request().postDataJSON()?.action==='restaurer');
+ await page.getByRole('button',{name:'Oui, je veux réessayer'}).click();const response=await restored;assert.ok(response.ok(),await response.text());
+ await page.getByRole('heading',{name:'J’essaie',exact:true}).waitFor({timeout:90000});
  await assert.rejects(access(join(workspace(2),'MON-ESSAI.txt')));assert.equal((await state()).missions[2].lastAudit,null);
  await page.getByRole('button',{name:'Escale / atelier UX, accueil'}).click();
  await page.screenshot({path:join(dataDir,'accueil-verifie.png'),fullPage:true});

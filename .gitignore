@@ -1,0 +1,16 @@
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+.atelier/
+travail/
+.mcp.json
+.codex/config.toml
+.DS_Store
+*.log
+modele/public/images/lourde.png
+modele/public/images/hero.webp
+modele/public/images/produits/
+.env
+.env.*
+!.env.example

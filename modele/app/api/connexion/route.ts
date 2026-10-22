@@ -1,0 +1,3 @@
+const accounts = [{ email: 'camille@example.test', password: 'Escale2026!', name: 'Camille', city: 'Neuchâtel', postal: '2000', address: 'Rue de la Démo 12' }, { email: 'alex@example.test', password: 'Escale2026!', name: 'Alex', city: 'Lausanne', postal: '1003', address: 'Place Exemple 4' }];
+export async function POST(request: Request) { const { email, password } = await request.json(); const account = accounts.find(a => a.email === email && a.password === password); if (!account)
+    return Response.json({ error: 'Ces identifiants de démonstration ne correspondent pas.' }, { status: 401 }); const { password: _, ...profile } = account; return Response.json({ profile, demo: true }, { headers: { 'Cache-Control': 'no-store' } }); }

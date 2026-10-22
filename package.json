@@ -1,0 +1,35 @@
+{
+  "name": "escale-eleves",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 4210",
+    "build": "next build",
+    "start": "node atelier.mjs demarrer",
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "node tests/parcours.mjs",
+    "atelier": "node atelier.mjs"
+  },
+  "dependencies": {
+    "next": "16.4.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "lighthouse": "^13.5.0",
+    "playwright": "^1.64.1",
+    "sharp": "0.35.5",
+    "typescript": "5.9.3",
+    "chrome-devtools-mcp": "1.11.0",
+    "@playwright/mcp": "0.0.83"
+  },
+  "description": "Atelier UX guidé pour débutants, avec Codex ou Claude Code.",
+  "engines": {
+    "node": ">=22.12"
+  }
+}

@@ -27,6 +27,8 @@ node atelier.mjs
 
 Chaque mission suit cinq étapes : essayer → comprendre → mesurer → corriger → vérifier. Des indices et des consignes pour votre agent sont disponibles. Vous écrivez votre propre explication à la fin.
 
+Dans « Je mesure », commencez par les gestes expliqués pour l’outil. Le bouton « Vérifier automatiquement mes observations » lance ensuite un script local dont les actions sont décrites à l’écran. Il n’appelle ni une IA ni un MCP. La demande pour votre agent est une seconde option, à copier dans votre conversation.
+
 ## Essayer sans perdre son travail
 
 - Une copie indépendante par mission dans `travail/bloc-N/`.

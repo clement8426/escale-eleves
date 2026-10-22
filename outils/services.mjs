@@ -13,7 +13,7 @@ export async function start(name,work,preferred,dev){
  if(existing)await stop(name);
  const port=await freePort(preferred),token=randomUUID(),stateFile=serviceFile(name);await mkdir(join(dataDir,'services'),{recursive:true});
  const config={root,work,port,dev,token,stateFile,url:`http://127.0.0.1:${port}`};const configPath=join(dataDir,'services',name+'-configuration.json');await save(configPath,config);
- const log=await open(join(dataDir,'services',name+'.log'),'a');const child=spawn(process.execPath,[join(root,'outils/serveur.mjs'),configPath],{cwd:root,detached:true,stdio:['ignore',log.fd,log.fd],windowsHide:true});let failure;child.on('error',e=>failure=e);child.unref();await log.close();
+ const log=await open(join(dataDir,'services',name+'.log'),'a');const child=spawn(process.execPath,[join(root,'outils/serveur.mjs'),configPath],{cwd:root,detached:process.platform!=='win32',stdio:['ignore',log.fd,log.fd],windowsHide:true});let failure;child.on('error',e=>failure=e);child.unref();await log.close();
  for(let n=0;n<240;n++){if(failure)throw failure;const s=await status(name);if(s?.error)throw Error('Le site ne démarre pas. Vous pouvez revenir à votre sauvegarde. Détail : '+s.error);if(s?.ready)return s;await new Promise(r=>setTimeout(r,250));}
  throw Error('Le démarrage prend trop de temps. Consultez .atelier/services/'+name+'.log.');
 }

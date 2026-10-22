@@ -17,9 +17,9 @@ export async function queueAudit(value,phase){
   let alive=false;try{process.kill(previous.pid,0);alive=true;}catch{}
   if(alive)throw Error('Un contrôle est déjà en cours. Attendez le résultat.');
  }
- const job={id:stamp(),mission:id,phase,status:'en-cours',message:id===6?'Préparation de la version de production, puis mesures réelles. Cela peut prendre quelques minutes.':'Le navigateur rejoue le parcours. Vous pouvez rester sur cette page.',started:Date.now()};
+ const job={id:stamp(),mission:id,phase,status:'en-cours',message:id===6?'Le script prépare la production, mesure les ressources puis lance Lighthouse. Cela peut prendre quelques minutes.':'Le script Playwright ouvre un navigateur en arrière-plan, rejoue les étapes et conserve les preuves. Aucune IA n’est appelée.',started:Date.now()};
  await save(jobFile,job);
- const child=spawn(process.execPath,[join(root,'outils/audit.mjs'),String(id),phase,job.id],{cwd:root,detached:true,stdio:'ignore',windowsHide:true});child.on('error',async e=>save(jobFile,{...job,status:'erreur',message:e.message}));child.unref();job.pid=child.pid;await save(jobFile,job);return job;
+ const child=spawn(process.execPath,[join(root,'outils/audit.mjs'),String(id),phase,job.id],{cwd:root,detached:process.platform!=='win32',stdio:'ignore',windowsHide:true});child.on('error',async e=>save(jobFile,{...job,status:'erreur',message:e.message}));child.unref();job.pid=child.pid;await save(jobFile,job);return job;
 }
 export async function view(){
  const s=await state(),job=await json(join(dataDir,'tache.json')),service=await status('boutique');

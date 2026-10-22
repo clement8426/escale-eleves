@@ -19,10 +19,10 @@ try{
  const frame=page.frameLocator('iframe');await frame.locator('#name').waitFor({timeout:90000});
  await frame.locator('#name').fill('Camille Démo');await frame.locator('#postal').fill('20');await frame.getByRole('button',{name:/Confirmer la commande fictive/}).click();assert.equal(await frame.locator('#name').inputValue(),'');
  await page.getByRole('button',{name:'J’ai essayé →'}).click();await page.locator('#observation').fill('Les informations disparaissent après mon erreur.');await page.getByRole('button',{name:'Un petit indice',exact:true}).click();assert.ok(await page.getByText('Saisissez Camille Démo comme nom avant de confirmer.').isVisible());
- await page.getByRole('button',{name:'Choisir mon outil →'}).click();await page.getByRole('button',{name:'Lancer mon premier contrôle'}).click();
+ await page.getByRole('button',{name:'Choisir mon outil →'}).click();await page.getByRole('button',{name:'Vérifier automatiquement mes observations'}).click();
  for(let n=0;n<300;n++){const job=await json(join(dataDir,'tache.json'));if(job?.status==='erreur')throw Error(job.message);if(job?.status==='termine')break;await new Promise(r=>setTimeout(r,200));if(n===299)throw Error('Contrôle trop long');}
  await page.getByText('Mon constat',{exact:true}).waitFor();assert.equal((await state()).missions[2].lastAudit.passed,false);
- await page.getByRole('button',{name:'Le faire avec mon agent'}).click();assert.match(await page.getByRole('textbox',{name:'Consigne pour mon agent'}).inputValue(),/Ne corrige rien/);await page.getByRole('button',{name:'Fermer',exact:true}).click();
+ await page.getByRole('button',{name:'Préparer une demande pour mon agent'}).click();assert.match(await page.getByRole('textbox',{name:'Consigne pour mon agent'}).inputValue(),/Ne corrige rien/);await page.getByRole('button',{name:'Fermer',exact:true}).click();
  await page.getByRole('button',{name:'Passer à la correction →'}).click();await page.getByRole('button',{name:'Préparer ma correction avec l’agent'}).click();assert.match(await page.getByRole('textbox',{name:'Consigne pour mon agent'}).inputValue(),/travail/);await page.getByRole('button',{name:'Fermer',exact:true}).click();
  await writeFile(join(workspace(2),'MON-ESSAI.txt'),'Mon nouvel essai doit être conservé.');
  // Une erreur de compilation dans la copie ne doit pas casser l’atelier ni le retour arrière.

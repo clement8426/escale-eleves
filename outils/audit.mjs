@@ -42,6 +42,7 @@ export async function audit(value,phase='constat',jobId=null){
    }
    if(id===3){
     await go('/produits/sac-weekend');await page.waitForSelector('.detail-title');const scan=await new AxeBuilder({page}).analyze();await writeFile(join(dir,'axe.json'),JSON.stringify(scan,null,2));report.links.push({url:web+'axe.json',title:'Véritable rapport axe-core'});
+    check('Les images ont un texte alternatif',!scan.violations.some(v=>v.id==='image-alt'),'Contrôle axe-core image-alt sur cette page.');
     check('Le cœur possède un nom accessible',!scan.violations.some(v=>v.id==='button-name'),'Contrôle axe-core button-name sur cette page.');
     check('Le contraste du texte ne déclenche plus de violation',!scan.violations.some(v=>v.id==='color-contrast'),'Contrôle automatique du contraste sur cette page ; aucun certificat global.');await shot('produit','Le cœur et le prix');
     await go('/confirmation');const trigger=page.getByRole('button',{name:'Annuler cette commande',exact:true});await trigger.focus();await page.keyboard.press('Enter');const dialog=page.getByRole('dialog');await dialog.waitFor();

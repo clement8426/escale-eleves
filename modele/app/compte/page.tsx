@@ -1,2 +1,2 @@
-import { Compte } from '../../components/Boutique';
-export default function Page() { return <Compte />; }
+import { redirect } from 'next/navigation';
+export default function Page(){ redirect('/commande/'); }

@@ -58,7 +58,7 @@ Le workflow GitHub vérifie le démarrage et les missions sur macOS 14, Windows 
 
 Le modèle initial est dans `modele/`. L’atelier est dans `app/` et `components/`. Les outils, sauvegardes et contrôles sont dans `outils/`. Les fichiers de connexion locaux, les essais et les dépendances ne sont jamais ajoutés à Git.
 
-Cours : https://plateforme-cours-three.vercel.app/ux/ux-ia/demos/escale/
+Cours : https://www.labonumerique.ch/ux/ux-ia/demos/escale/
 
 Sources : [Playwright](https://playwright.dev/docs/intro), [axe-core avec Playwright](https://playwright.dev/docs/accessibility-testing), [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview), [Chrome DevTools MCP](https://github.com/ChromeDevTools/chrome-devtools-mcp), [Playwright MCP](https://github.com/microsoft/playwright-mcp), [Codex MCP](https://learn.chatgpt.com/docs/extend/mcp?surface=cli), [Claude Code MCP](https://code.claude.com/docs/en/mcp).
 
